@@ -1,0 +1,201 @@
+﻿@using CarShop.BootstrapModal
+@model CarShop.Models.ApplicationUsers
+
+
+<section id="main-content" class="panel">
+    <section class="wrapper">
+        <form asp-action="Edit" method="post" id="frmBrand">
+            <div class="form-horizontal">
+                <div class="panel-heading">
+                    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "Edit User" })
+                </div>
+                 <input asp-for="Id" type="hidden" class="form-control" autofocus="" />
+                <div class="panel-body">
+                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Name" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <input asp-for="Name" class="form-control" autofocus="" />
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="hidden">
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Email" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <input asp-for="Email" class="form-control" autofocus="" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Gender" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <select asp-for="Gender" class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Unknown">Unknown</option>
+                            </select>
+                        </div>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Contact" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <input asp-for="Contact" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Contact" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="DateOfBirth" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <input asp-for="DateOfBirth" type="date" class="form-control" />
+                        </div>
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Country" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <select asp-for="Country" class="form-control" id="country">
+                                <option value="">-- Country --</option>
+                            </select>
+                        </div>
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Region" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <select asp-for="Region" class="form-control" id="region">
+                                <option value="">--Region --</option>
+                            </select>
+                        </div>
+                        <span asp-validation-for="Region" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="City" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <select asp-for="City" class="form-control" id="city">
+                                <option value="">-- City --</option>
+                            </select>
+                        </div>
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Address" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <input asp-for="Address" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                @await Html.PartialAsync("_ModalFooter", new ModalFooter { })
+            </div>
+        </form>
+    </section>
+</section>
+<script>
+    //-------------------------------SELECT CASCADING-------------------------//
+    var currentCities = [];
+    var currentCountry = null;
+    var currentRegion = null;
+    var currentCity = null;
+    // This is a demo API key that can only be used for a short period of time, and will be unavailable soon. You should rather request your API key (free)  from http://battuta.medunes.net/
+    var BATTUTA_KEY = "f66c6a09d1809a65b82a783ab1fa70e1";
+    // Populate country select box from battuta API
+    url = "https://geo-battuta.net/api/country/all/?key=" + BATTUTA_KEY + "&callback=?";
+    $.getJSON(url, function (countries) {
+        //console.log(countries);
+        //$("#country").material_select();
+        //loop through countries..
+        $.each(countries, function (key, country) {
+
+            $("<option></option>")
+                .attr("value", country.code)
+                .append(country.name)
+                .appendTo($("#country"));
+
+        });
+        // trigger "change" to fire the #state section update process
+        //$("#country").material_select('update');
+        $("#country").trigger("change");
+        currentCountry = country.name;
+    });
+    $('#country').on("change", function () {
+        countryCode = $("#country").val();
+
+        // Populate country select box from battuta API
+        url = "https://geo-battuta.net/api/region/"
+            + countryCode
+            + "/all/?key=" + BATTUTA_KEY + "&callback=?";
+
+        $.getJSON(url, function (regions) {
+            $("#region option").remove();
+            //loop through regions..
+            $.each(regions, function (key, region) {
+                $("<option></option>")
+                    .attr("value", region.region)
+                    .append(region.region)
+                    .appendTo($("#region"));
+            });
+            // trigger "change" to fire the #state section update process
+            $("#region").trigger("change");
+            currentRegion = region.name;
+        });
+    });
+    $("#region").on("change", function () {
+        // Populate country select box from battuta API
+        countryCode = $("#country").val();
+        region = $("#region").val();
+        url = "https://geo-battuta.net/api/city/"
+            + countryCode
+            + "/search/?region="
+            + region
+            + "&key="
+            + BATTUTA_KEY
+            + "&callback=?";
+
+        $.getJSON(url, function (cities) {
+            currentCities = cities;
+            //console.log(currentCities);
+            var i = 0;
+            $("#city option").remove();
+
+            //loop through regions..
+            $.each(cities, function (key, city) {
+                $("<option></option>")
+                    .attr("value", city.city)
+                    .append(city.city)
+                    .appendTo($("#city"));
+            });
+            // trigger "change" to fire the #state section update process
+            //$("#city").material_select('update');
+            $("#city").trigger("change");
+        });
+    });
+</script>
+<partial name="_ValidationScriptsPartial" />

@@ -1,0 +1,81 @@
+﻿@using CarShop.BootstrapModal
+@using CarShop.Extensions
+@model CarShop.Models.ViewModels.CategoryViewModel
+
+<section id="main-content" class="panel">
+    <section class="wrapper">
+        <form asp-action="Edit" method="post" id="frmBrand">
+            <div class="form-horizontal">
+                <div class="panel-heading">
+                    @await Html.PartialAsync("_ModalHeader", new ModalHeader { Heading = "Edit Category" })
+                </div>
+                <div class="panel-body">
+                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                    <input type="hidden" asp-for="Category.Id"/>
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Category.Name" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <input asp-for="Category.Name" class="form-control" autofocus="" />
+                        </div>
+                        <span asp-validation-for="Category.Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Category.CreatedDate" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <input asp-for="Category.CreatedDate" class="form-control" type="datetime" value="@Model.Category.CreatedDate" readonly />
+                        </div>
+                        <span asp-validation-for="Category.CreatedDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Category.ModifiedDate" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <input asp-for="Category.ModifiedDate" class="form-control" type="datetime" value="@DateTime.Now.ToString("d")" readonly />
+                        </div>
+                        <span asp-validation-for="Category.ModifiedDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Category.Description" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <input asp-for="Category.Description" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Category.Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-2">
+                            <label asp-for="Category.CategoryId" class="control-label text-info" style="font-size: 1.3em;"></label>
+                        </div>
+                        <div class="col-10 mt-2">
+                            <select asp-for="Category.CategoryId" class="form-control" asp-items="Model.Categories.ToSelectListItem(Model.Category.Id)">
+                                <option value="" selected>--Select--</option>
+                            </select>
+                        </div>
+                        <span asp-validation-for="Category.CategoryId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                @await Html.PartialAsync("_ModalFooter", new ModalFooter { })
+            </div>
+        </form>
+    </section>
+</section>
+
+@section Scripts
+{
+    <script>
+        $.validator.unobtrusive.parse('#frmBrand')
+    </script>
+}
+

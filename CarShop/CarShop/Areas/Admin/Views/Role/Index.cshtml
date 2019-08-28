@@ -1,0 +1,70 @@
+﻿@model IEnumerable<ApplicationRoles>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <!--overview start-->
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa-laptop"></i> List Roles</h3>
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a asp-action="Index" class="btn-default">Roles</a></li>
+                    <li><i class="fa fa-laptop"></i>List Roles</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="offset-10 text-dark">
+                <a asp-action="Create" data-toggle="modal" data-target="#modal-popUP" class="btn btn-info"><i class="fa fa-plus"></i> &nbsp; Add New Role</a>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <section class="panel w-100">
+                <header class="panel-heading">List Roles</header>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(m => m.Name)</th>
+                                <th>@Html.DisplayNameFor(m => m.CreatedDate)</th>
+                                <th>@Html.DisplayNameFor(m => m.Description)</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in @Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(m => item.Name)</td>
+                                    <td>@item.CreatedDate.ToString("d")</td>
+                                    <td>@Html.DisplayFor(m => item.Description)</td>
+                                    <td>
+                                        <a data-toggle="modal" asp-action="Edit" asp-route-id="@item.Id" data-target="#modal-popUP"
+                                           class="btn btn-info">
+                                            <i class="glyphicon glyphicon-pencil"></i>  Edit
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" data-target="#modal-popUP" class="btn btn-danger">
+                                            <i class="fa fa-trash-o"></i>  Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <div aria-hidden="true" aria-labelledby="modal-popUP-label" role="dialog" tabindex="-1" id="modal-popUP" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
